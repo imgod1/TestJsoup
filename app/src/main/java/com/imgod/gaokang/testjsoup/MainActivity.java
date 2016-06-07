@@ -64,16 +64,27 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("start", "AsyncTask doInBackground");
                 Document doc = null;
                 try {
-                    doc = Jsoup.connect(ImageUrl).get();
+                    doc = Jsoup.connect(ImageUrl).timeout(3000).get();
+                    Elements elements = doc.select("div.thumbnail>div.img_single>a");//得到的是每一个图片所指向的连接
+                  //  Elements elements = doc.select("div[class=thumbnail]>div[class=img_single]>a");//得到的是每一个图片所指向的连接
+//                    Elements elements = doc.select("div[class=thumbnail] > div[class=img_single] > a > img");//得到的是每一个图片的地址
+                    final int size = elements.size();
+                    for (int i = 0; i < size; i++) {
+                        String imageUrl = elements.get(i).attr("href");//从该节点取出该属性的值
+                        Log.e("start", "position:" + i + "\timageUrl:\t" + imageUrl);
+                    }
                 } catch (IOException e) {
-                    Log.e("start", "AsyncTask 遇到异常");
+                    Log.e("start", "AsyncTask 遇到异常:" + e.getMessage());
                     e.printStackTrace();
                 }
-                Elements pelements = doc.select("img_single");
-                for (int i = 0; i < pelements.size(); i++) {
-                    Log.e("start", "text:" + pelements.get(0).text());
-                }
+
                 return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Log.e("start", "AsyncTask onPostExecute");
             }
         }.execute();
     }
