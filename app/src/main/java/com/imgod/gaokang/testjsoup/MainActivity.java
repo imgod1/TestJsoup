@@ -18,6 +18,8 @@ import java.io.IOException;
 /**
  * 文档地址
  * http://www.open-open.com/jsoup/
+ * github:https://github.com/jhy/jsoup
+ * gradle:compile 'org.jsoup:jsoup:1.10.2'
  */
 public class MainActivity extends AppCompatActivity {
 
